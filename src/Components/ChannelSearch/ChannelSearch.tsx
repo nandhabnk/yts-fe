@@ -1,12 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { tableHeadings } from "../../consts/channelSearchConst";
-import { Table } from "antd";
+import { Table, Spin } from "antd";
 import CommentsModal from "./CommentsModal";
+import { useParams } from "react-router-dom";
 import "./channelSearch.scss";
 
 const ChannelSearch = (props: any) => {
   const [openComments, setOpenComments] = useState(false);
   const [commentsData, setCommentsData] = useState([]);
+  const [tableData, setTableData] = useState([]);
+  const [showSpinner, setShowSpinner] = useState(false);
+  const { id } = useParams();
+
+  const preload = async () => {
+    setShowSpinner(true)
+    const searchResponse = await fetch(
+      `http://137.184.202.24:8000/fetch/video_details?channel_id=${id}`
+    );
+    if (searchResponse.status !== 200) throw Error("No results found");
+    const searchResData = await searchResponse.json();
+    if (searchResData.status === true) {
+      setTableData(searchResData.data);
+    }
+    setShowSpinner(false)
+  };
+
+  useEffect(() => {
+    preload();
+  }, []);
 
   const tableColumns = tableHeadings.map((heading: string) => {
     const headingText = heading.toLowerCase();
@@ -94,6 +115,7 @@ const ChannelSearch = (props: any) => {
   };
 
   const openCommentsModal = async (id: any) => {
+    setShowSpinner(true);
     const response = await fetch(
       `http://137.184.202.24:8000/queue/data?data=comment&id=${id}`
     );
@@ -101,6 +123,7 @@ const ChannelSearch = (props: any) => {
       const resData = await response.json();
       setCommentsData(resData.data);
       setOpenComments(true);
+      setShowSpinner(false);
     }
   };
 
@@ -111,22 +134,24 @@ const ChannelSearch = (props: any) => {
 
   return (
     <React.Fragment>
-      <div className="channelSearchContainer">
-        <div className="channelSearchTable">
-          <Table
-            columns={tableColumns}
-            dataSource={props.tableData}
-            pagination={false}
-            bordered
-            title={() => "Channel search results"}
+      <Spin tip="Loading..." spinning={showSpinner}>
+        <div className="channelSearchContainer">
+          <div className="channelSearchTable">
+            <Table
+              columns={tableColumns}
+              dataSource={tableData}
+              pagination={false}
+              bordered
+              title={() => "Channel search results"}
+            />
+          </div>
+          <CommentsModal
+            open={openComments}
+            handleOkCancel={closeCommentsModal}
+            commentsData={commentsData}
           />
         </div>
-        <CommentsModal
-          open={openComments}
-          handleOkCancel={closeCommentsModal}
-          commentsData={commentsData}
-        />
-      </div>
+      </Spin>
     </React.Fragment>
   );
 };

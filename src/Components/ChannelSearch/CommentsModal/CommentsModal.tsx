@@ -17,7 +17,7 @@ const CommentsModal = (props: any) => {
       {props.children}
     </Comment>
   );
-  const commentArr = props.commentsData.map((comment:any) => {
+  const commentArr = props.commentsData.map((comment: any) => {
     if (props.commentsData.length === 0) {
       return <h1>Comment scrap in progress try after sometime.</h1>;
     }
@@ -33,7 +33,7 @@ const CommentsModal = (props: any) => {
     );
     if (comment.replies.length === 0) return mainComment([]);
     else {
-      const replyComment = comment.replies.map((reply:any) => {
+      const replyComment = comment.replies.map((reply: any) => {
         return (
           <CommentElement
             key={reply.id}
@@ -52,14 +52,16 @@ const CommentsModal = (props: any) => {
   return (
     <>
       <Modal
-        title="Comments for ####"
+        title="Comments"
         footer=""
         centered
         width={1000}
         open={props.open}
         onCancel={props.handleOkCancel}
       >
-        {commentArr}
+        {commentArr.length === 0
+          ? "Please try again after sometime"
+          : commentArr}
       </Modal>
     </>
   );
