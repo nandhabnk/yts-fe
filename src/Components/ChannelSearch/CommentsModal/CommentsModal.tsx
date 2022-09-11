@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import CommentsMock from "../../../mocks/commentsMock.json";
 import { Avatar, Comment } from "antd";
 import { Modal } from "antd";
 
@@ -19,6 +18,9 @@ const CommentsModal = (props: any) => {
     </Comment>
   );
   const commentArr = props.commentsData.map((comment:any) => {
+    if (props.commentsData.length === 0) {
+      return <h1>Comment scrap in progress try after sometime.</h1>;
+    }
     const mainComment = (reply: any) => (
       <CommentElement
         key={comment.comment_id}

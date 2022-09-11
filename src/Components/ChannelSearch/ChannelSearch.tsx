@@ -35,7 +35,7 @@ const ChannelSearch = (props: any) => {
       case "Comments":
         Object.assign(headingObj, {
           render: (text: string) => (
-            <a onClick={() => openCommentsModal(text)}>{text}</a>
+            <a onClick={() => openCommentsModal(text)}>COMMENT LINK</a>
           ),
         });
         break;
