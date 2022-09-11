@@ -51,13 +51,23 @@ const ChannelSearch = (props: any) => {
 
       case "Video_status":
         Object.assign(headingObj, {
-          render: (text: string | Number) => (
+          render: (text: string | Number, record: any) => (
             <span>
-              {text === 0
-                ? "Downloading"
-                : text === -1
-                ? "Not yet downloaded"
-                : "Download completed"}
+              {text === 0 ? (
+                "video download in queue"
+              ) : text === -1 ? (
+                <button
+                  onClick={() =>
+                    downloadVideoToS3(record.id, record.video_link)
+                  }
+                >
+                  get video
+                </button>
+              ) : (
+                <button onClick={() => console.log("button click")}>
+                  download video
+                </button>
+              )}
             </span>
           ),
         });
@@ -65,6 +75,23 @@ const ChannelSearch = (props: any) => {
     }
     return headingObj;
   });
+
+  const downloadVideoToS3 = async (id: any, link: any) => {
+    const response = await fetch(
+      `http://159.89.238.69:8000/queue/scrap/video`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: id,
+          link: link,
+        }),
+      }
+    );
+  };
 
   const openCommentsModal = async (id: any) => {
     const response = await fetch(
