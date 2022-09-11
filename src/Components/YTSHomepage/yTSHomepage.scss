@@ -1,0 +1,42 @@
+.yTSHomePageContainer {
+  margin: 1rem 2rem;
+  //    background-image: linear-gradient(
+  //   to bottom right,
+  //   #0096ff,
+  //   royalblue,
+  //   #5d3fd3
+  // );
+
+  .yTSHomePageFlex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .headingLHS {
+    border: solid 2px black;
+    padding: 1rem;
+    text-align: center;
+    width: 40%;
+  }
+
+  .searchformContainer {
+    background-color: white;
+    border: 2px solid black;
+    padding: 3rem;
+    text-align: center;
+    line-height: 3rem;
+  }
+
+  label {
+    font-weight: normal;
+    font-size: 20px;
+  }
+
+  input {
+    color: royalblue;
+    font-size: 25px;
+    text-align: center;
+  }
+}
