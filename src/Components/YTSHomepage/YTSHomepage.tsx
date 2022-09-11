@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { useForm } from "react-hook-form";
 import Button from "../UI-Elements/ButtonComponent/ButtonComponent";
 import "./yTSHomepage.scss";
 
-const YTSHomepage = () => {
+const YTSHomepage = (props:any) => {
   const {
     register,
     handleSubmit,
@@ -12,7 +12,7 @@ const YTSHomepage = () => {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    console.log(data);
+    props.searchYTS(data)
   };
   return (
     <React.Fragment>

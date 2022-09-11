@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { tableHeadings } from "../../consts/channelSearchConst";
-import channelSearchMock from "../../mocks/scrappedDataMock.json";
 import { Table } from "antd";
 import CommentsModal from "./CommentsModal";
 import "./channelSearch.scss";
 
-const ChannelSearch = () => {
+const ChannelSearch = (props: any) => {
   const [openComments, setOpenComments] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [commentsData, setCommentsData] = useState([]);
 
   const tableColumns = tableHeadings.map((heading: string) => {
     const headingText = heading.toLowerCase();
@@ -35,7 +34,9 @@ const ChannelSearch = () => {
         break;
       case "Comments":
         Object.assign(headingObj, {
-          render: (text: string) => <a onClick={openCommentsModal}>{text}</a>,
+          render: (text: string) => (
+            <a onClick={() => openCommentsModal(text)}>{text}</a>
+          ),
         });
         break;
       case "Video_link":
@@ -62,23 +63,24 @@ const ChannelSearch = () => {
         });
         break;
     }
-    console.log(headingObj);
     return headingObj;
   });
 
-  const openCommentsModal = () => {
-    setOpenComments(true);
+  const openCommentsModal = async (id: any) => {
+    const response = await fetch(
+      `http://137.184.202.24:8000/queue/data?data=comment&id=${id}`
+    );
+    if (response.ok) {
+      const resData = await response.json();
+      setCommentsData(resData.data);
+      setOpenComments(true);
+    }
   };
 
   const closeCommentsModal = () => {
+    setCommentsData([]);
     setOpenComments(false);
   };
-
-  const confirmLoadingStatus = (status: boolean) => {
-    setConfirmLoading(status);
-  };
-
-  const { data } = channelSearchMock;
 
   return (
     <React.Fragment>
@@ -86,7 +88,7 @@ const ChannelSearch = () => {
         <div className="channelSearchTable">
           <Table
             columns={tableColumns}
-            dataSource={data}
+            dataSource={props.tableData}
             pagination={false}
             bordered
             title={() => "Channel search results"}
@@ -94,8 +96,8 @@ const ChannelSearch = () => {
         </div>
         <CommentsModal
           open={openComments}
-          confirmLoading={confirmLoading}
           handleOkCancel={closeCommentsModal}
+          commentsData={commentsData}
         />
       </div>
     </React.Fragment>
