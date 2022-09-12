@@ -1,25 +1,9 @@
 .yTSHomePageContainer {
   margin: 1rem 2rem;
-  //    background-image: linear-gradient(
-  //   to bottom right,
-  //   #0096ff,
-  //   royalblue,
-  //   #5d3fd3
-  // );
-
-  .yTSHomePageFlex {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .headingLHS {
-    border: solid 2px black;
-    padding: 1rem;
-    text-align: center;
-    width: 40%;
-  }
+  display: grid;
+  justify-content: space-around;
+  align-items: center;
+  height: 100vh;
 
   .searchformContainer {
     background-color: white;
@@ -27,6 +11,17 @@
     padding: 3rem;
     text-align: center;
     line-height: 3rem;
+    max-width: 30rem;
+    max-width: 30rem;
+
+    h1{
+      font-size: 3rem;
+      font-weight: bolder;
+    }
+    label{
+      font-size:  2rem;
+      font-weight: 250;
+    }
   }
 
   label {

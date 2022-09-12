@@ -13,7 +13,7 @@ const ChannelSearch = (props: any) => {
   const { id } = useParams();
 
   const preload = async () => {
-    setShowSpinner(true)
+    setShowSpinner(true);
     const searchResponse = await fetch(
       `http://137.184.202.24:8000/fetch/video_details?channel_id=${id}`
     );
@@ -22,7 +22,7 @@ const ChannelSearch = (props: any) => {
     if (searchResData.status === true) {
       setTableData(searchResData.data);
     }
-    setShowSpinner(false)
+    setShowSpinner(false);
   };
 
   useEffect(() => {
@@ -142,7 +142,24 @@ const ChannelSearch = (props: any) => {
               dataSource={tableData}
               pagination={false}
               bordered
-              title={() => "Channel search results"}
+              title={() => (
+                <div className="search-table-title-block">
+                  <div>
+                    <button
+                      onClick={() => {
+                        window.location.href =
+                          "http://localhost:3000/ytshomepage";
+                      }}
+                    >
+                      ◀BACK
+                    </button>
+                  </div>
+                  <div className="search-table-title">
+                    Channel search results
+                  </div>
+                  <div></div>
+                </div>
+              )}
             />
           </div>
           <CommentsModal

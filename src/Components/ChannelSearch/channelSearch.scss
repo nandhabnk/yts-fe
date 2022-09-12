@@ -11,6 +11,15 @@
 
     .ant-table-title {
       font-size: 25px;
+
+      .search-table-title-block {
+        display: flex;
+        justify-content: space-between;
+
+        .search-table-title {
+          font-weight: bolder;
+        }
+      }
     }
 
     img {
